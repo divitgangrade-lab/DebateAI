@@ -6,6 +6,8 @@ import './globals.css'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { Navbar } from '@/components/navbar'
 import { Toaster } from '@/components/ui/toaster'
+import { ErrorBoundary } from '@/lib/error-boundary'
+import { SidebarProvider } from '@/lib/providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,11 +40,15 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.className} bg-slate-950 text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Navbar />
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <SidebarProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+            </SidebarProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )
